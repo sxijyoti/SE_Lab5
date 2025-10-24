@@ -1,3 +1,8 @@
+"""Inventory management utilities.
+
+Provides simple in-memory stock tracking with functions to add/remove items,
+load/save data to JSON, and report low-stock items.
+"""
 import json
 import logging
 from datetime import datetime
