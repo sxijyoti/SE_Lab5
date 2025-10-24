@@ -18,8 +18,8 @@ def removeItem(item, qty):
         stock_data[item] -= qty
         if stock_data[item] <= 0:
             del stock_data[item]
-    except:
-        pass
+    except KeyError:
+        logging.warning("Attempted to remove non-existent item: %s", item)
 
 def getQty(item):
     return stock_data[item]
