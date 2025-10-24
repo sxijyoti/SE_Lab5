@@ -17,7 +17,7 @@ def add_item(item="default", qty=0, logs=None):
     if logs is None:
         logs = []
     stock_data[item] = stock_data.get(item, 0) + qty
-    logs.append("%s: Added %d of %s" % (str(datetime.now()), qty, item))
+    logs.append(f"{datetime.now()}: Added {qty} of {item}")
 
 def remove_item(item, qty):
     """Decrease qty for item; remove the item entirely if quantity falls to zero or below."""
