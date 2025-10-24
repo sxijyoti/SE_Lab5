@@ -7,6 +7,10 @@ import json
 import logging
 from datetime import datetime
 
+# Configure logging for the module
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+logger = logging.getLogger(__name__)
+
 # Global variable
 stock_data = {}
 
@@ -26,7 +30,7 @@ def remove_item(item, qty):
         if stock_data[item] <= 0:
             del stock_data[item]
     except KeyError:
-        logging.warning("Attempted to remove non-existent item: %s", item)
+        logger.warning("Attempted to remove non-existent item: %s", item)
 
 def get_qty(item):
     """Return the current quantity for item (raises KeyError if item missing)."""
@@ -39,10 +43,10 @@ def load_data(file="inventory.json"):
         with open(file, "r", encoding="utf-8") as f:
             stock_data = json.load(f)
     except FileNotFoundError:
-        logging.warning("Data file not found: %s", file)
+        logger.warning("Data file not found: %s", file)
         stock_data = {}
     except json.JSONDecodeError:
-        logging.warning("Invalid JSON in data file: %s", file)
+        logger.warning("Invalid JSON in data file: %s", file)
         stock_data = {}
 
 def save_data(file="inventory.json"):
