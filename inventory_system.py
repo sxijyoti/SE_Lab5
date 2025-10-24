@@ -38,16 +38,17 @@ def get_qty(item):
 
 def load_data(file="inventory.json"):
     """Load stock data from a JSON file; on error, initialize an empty inventory."""
-    global stock_data
     try:
         with open(file, "r", encoding="utf-8") as f:
-            stock_data = json.load(f)
+            data = json.load(f)
+            stock_data.clear()
+            stock_data.update(data)
     except FileNotFoundError:
         logger.warning("Data file not found: %s", file)
-        stock_data = {}
+        stock_data.clear()
     except json.JSONDecodeError:
         logger.warning("Invalid JSON in data file: %s", file)
-        stock_data = {}
+        stock_data.clear()
 
 def save_data(file="inventory.json"):
     """Persist current stock_data to a JSON file using UTF-8 encoding."""
