@@ -25,15 +25,20 @@ def getQty(item):
     return stock_data[item]
 
 def loadData(file="inventory.json"):
-    f = open(file, "r")
     global stock_data
-    stock_data = json.loads(f.read())
-    f.close()
+    try:
+        with open(file, "r") as f:
+            stock_data = json.load(f)
+    except FileNotFoundError:
+        logging.warning("Data file not found: %s", file)
+        stock_data = {}
+    except json.JSONDecodeError:
+        logging.warning("Invalid JSON in data file: %s", file)
+        stock_data = {}
 
 def saveData(file="inventory.json"):
-    f = open(file, "w")
-    f.write(json.dumps(stock_data))
-    f.close()
+    with open(file, "w") as f:
+        json.dump(stock_data, f)
 
 def printData():
     print("Items Report")
