@@ -8,7 +8,8 @@ import logging
 from datetime import datetime
 
 # Configure logging for the module
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 # Global variable
@@ -58,15 +59,15 @@ def save_data(file="inventory.json"):
 def print_data():
     """Print a simple report of all items and their quantities to stdout."""
     print("Items Report")
-    for i in stock_data:
-        print(i, "->", stock_data[i])
+    for item, qty in stock_data.items():
+        print(item, "->", qty)
 
 def check_low_items(threshold=5):
     """Return a list of item names whose quantity is below the given threshold."""
     result = []
-    for i in stock_data:
-        if stock_data[i] < threshold:
-            result.append(i)
+    for item, qty in stock_data.items():
+        if qty < threshold:
+            result.append(item)
     return result
 
 def main():
@@ -82,5 +83,6 @@ def main():
     load_data()
     print_data()
     print("eval used")
+
 
 main()
