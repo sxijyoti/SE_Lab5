@@ -10,7 +10,7 @@ from datetime import datetime
 # Global variable
 stock_data = {}
 
-def addItem(item="default", qty=0, logs=None):
+def add_item(item="default", qty=0, logs=None):
     """Add qty of item to stock_data and record the action in logs if provided."""
     if not item:
         return
@@ -19,7 +19,7 @@ def addItem(item="default", qty=0, logs=None):
     stock_data[item] = stock_data.get(item, 0) + qty
     logs.append("%s: Added %d of %s" % (str(datetime.now()), qty, item))
 
-def removeItem(item, qty):
+def remove_item(item, qty):
     """Decrease qty for item; remove the item entirely if quantity falls to zero or below."""
     try:
         stock_data[item] -= qty
@@ -28,11 +28,11 @@ def removeItem(item, qty):
     except KeyError:
         logging.warning("Attempted to remove non-existent item: %s", item)
 
-def getQty(item):
+def get_qty(item):
     """Return the current quantity for item (raises KeyError if item missing)."""
     return stock_data[item]
 
-def loadData(file="inventory.json"):
+def load_data(file="inventory.json"):
     """Load stock data from a JSON file; on error, initialize an empty inventory."""
     global stock_data
     try:
@@ -45,18 +45,18 @@ def loadData(file="inventory.json"):
         logging.warning("Invalid JSON in data file: %s", file)
         stock_data = {}
 
-def saveData(file="inventory.json"):
+def save_data(file="inventory.json"):
     """Persist current stock_data to a JSON file using UTF-8 encoding."""
     with open(file, "w", encoding="utf-8") as f:
         json.dump(stock_data, f)
 
-def printData():
+def print_data():
     """Print a simple report of all items and their quantities to stdout."""
     print("Items Report")
     for i in stock_data:
         print(i, "->", stock_data[i])
 
-def checkLowItems(threshold=5):
+def check_low_items(threshold=5):
     """Return a list of item names whose quantity is below the given threshold."""
     result = []
     for i in stock_data:
@@ -66,16 +66,16 @@ def checkLowItems(threshold=5):
 
 def main():
     """Demonstrate basic usage of the inventory functions (example entry point)."""
-    addItem("apple", 10)
-    addItem("banana", -2)
-    addItem(123, "ten")  # invalid types, no check
-    removeItem("apple", 3)
-    removeItem("orange", 1)
-    print("Apple stock:", getQty("apple"))
-    print("Low items:", checkLowItems())
-    saveData()
-    loadData()
-    printData()
+    add_item("apple", 10)
+    add_item("banana", -2)
+    add_item(123, "ten")  # invalid types, no check
+    remove_item("apple", 3)
+    remove_item("orange", 1)
+    print("Apple stock:", get_qty("apple"))
+    print("Low items:", check_low_items())
+    save_data()
+    load_data()
+    print_data()
     print("eval used")
 
 main()
