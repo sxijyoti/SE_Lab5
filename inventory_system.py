@@ -27,7 +27,7 @@ def getQty(item):
 def loadData(file="inventory.json"):
     global stock_data
     try:
-        with open(file, "r") as f:
+        with open(file, "r", encoding="utf-8") as f:
             stock_data = json.load(f)
     except FileNotFoundError:
         logging.warning("Data file not found: %s", file)
@@ -37,7 +37,7 @@ def loadData(file="inventory.json"):
         stock_data = {}
 
 def saveData(file="inventory.json"):
-    with open(file, "w") as f:
+    with open(file, "w", encoding="utf-8") as f:
         json.dump(stock_data, f)
 
 def printData():
